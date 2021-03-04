@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  node:
+    container_name: 'api-node-gap'
+    build:
+      context: ../backend
+      dockerfile: node.Dockerfile
+    command: sh -c "npm install && npm start"
+    volumes:
+      - ./../backend/:/usr/app
+      - ./../backend/node_modules:/usr/app/node_modules
+    ports:
+      - "${PORT_HOST_NODEJS}:3000"
+    networks:
+      - poc-network
+
+  mongodb:
+    container_name: 'database-mongo-gap'
+    image: mongo
+    restart: always
+    ports:
+      - "${PORT_MONGODB}:27017"
+    volumes:
+      - ./dbdata:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "${MONGO_INITDB_ROOT_USERNAME}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_INITDB_ROOT_PASSWORD}"
+    networks:
+      - poc-network
+
+  redis:
+    container_name: redis-gap
+    image: redis
+    volumes:
+      - ./.dbdata:/data
+      - ./.docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - "${REDIS_PORT}:6379"
+    networks:
+      - poc-network
+
+  quasar:
+    container_name: 'front-quasar-gap'
+    build:
+      context: ../frontend
+    ports:
+      - "${PORT_FRONT}:8080"
+    volumes:
+      - ./../frontend/:/usr/app
+      - ./../frontend/node_modules:/usr/app/node_modules
+    command: /bin/sh -c "npm install && quasar dev"
+    networks:
+      - poc-network
+
+networks:
+  poc-network:
+    driver: bridge
