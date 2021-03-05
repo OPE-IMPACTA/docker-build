@@ -45,14 +45,5 @@ Acesse para ver o resultado:
 * [dashboard.e2e.local:8080](dashboard.e2e.local:8080) (ou a porta definida no .env)
 * [mongoclient.e2e.local:3300](mongoclient.e2e.local:3300) (ou a porta definida no .env)
 
-## Kafka
-Após o container referente ao kafka ser criado, precisamos 
-adicionar os tópicos que irão trabalhar para nós com o seguinte comando:
-
-Esse comando rodamos apenas uma única vez, assim que o primeiro build for feito.
-```
-docker-compose exec broker kafka-topics --create --topic e2e-event-node --bootstrap-server broker:9092 --partitions 1 --replication-factor 1
-docker-compose exec broker kafka-topics --create --topic e2e-event-go --bootstrap-server broker:9092 --partitions 1 --replication-factor 1
-```
 
 
