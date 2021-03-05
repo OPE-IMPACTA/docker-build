@@ -21,8 +21,6 @@ services:
     restart: always
     ports:
       - "${PORT_MONGODB}:27017"
-    volumes:
-      - ./dbdata:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: "${MONGO_INITDB_ROOT_USERNAME}"
       MONGO_INITDB_ROOT_PASSWORD: "${MONGO_INITDB_ROOT_PASSWORD}"
