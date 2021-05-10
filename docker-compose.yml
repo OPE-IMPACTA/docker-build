@@ -40,6 +40,8 @@ services:
 
   quasar:
     container_name: 'front-quasar-gap'
+    env_file:
+      - .front.env
     build:
       context: ../frontend
     ports:
